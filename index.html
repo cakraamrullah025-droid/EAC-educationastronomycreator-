@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendaftaran Marga EAC</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background: radial-gradient(circle at bottom, #0d1b2a, #000814);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    overflow:auto;
+}
+
+/* ⭐ Background Bintang */
+.stars{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background: transparent url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    animation: moveStars 80s linear infinite;
+    opacity:0.4;
+    z-index:0;
+}
+
+@keyframes moveStars{
+    from{background-position:0 0;}
+    to{background-position:10000px 5000px;}
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    width:400px;
+    padding:30px;
+    border-radius:20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 30px rgba(0,255,255,0.3);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:cyan;
+    text-shadow:0 0 10px cyan;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    background:rgba(255,255,255,0.1);
+    color:white;
+}
+
+textarea{
+    resize:none;
+    height:80px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(45deg, cyan, #00f7ff);
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px cyan;
+}
+
+/* 🎉 Popup sukses */
+.success-popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:#001d3d;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    display:none;
+    z-index:10;
+    box-shadow:0 0 25px cyan;
+    width:300px;
+}
+
+.success-popup h3{
+    color:cyan;
+    margin-bottom:10px;
+}
+
+.success-popup button{
+    background:lime;
+    color:black;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div class="container">
+    <h2>🚀 Pendaftaran Marga EAC</h2>
+
+    <form id="eacForm"
+    action="https://formsubmit.co/cakraamrullah025@gmail.com"
+    method="POST"
+    enctype="multipart/form-data"
+    onsubmit="return handleSubmit(event)">
+
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="Pendaftaran Anggota EAC Baru!">
+        <input type="hidden" name="_template" value="table">
+
+        <input type="text" name="Nama" placeholder="Nama" required>
+
+        <input type="number" name="Umur" placeholder="Umur (Minimal 12 Tahun)" min="12" required>
+
+        <select name="Status" required>
+            <option value="">Pilih Status</option>
+            <option>Pelajar</option>
+            <option>Pekerja</option>
+            <option>Berkeluarga</option>
+        </select>
+
+        <textarea name="Alasan" placeholder="Alasan kamu ingin menjadi anggota kreator EAC" required></textarea>
+
+        <input type="text" name="Akun TikTok" placeholder="Nama akun TikTok kamu" required>
+
+        <input type="text" name="Film Astronomi" placeholder="Film/Animasi astronomi yang kamu suka" required>
+
+        <label>Screenshot akun TikTok kamu:</label>
+        <input type="file" name="Screenshot" accept="image/*" required>
+
+        <button type="submit">Gabung Sekarang</button>
+    </form>
+</div>
+
+<!-- 🎉 Popup -->
+<div class="success-popup" id="successPopup">
+    <h3>✅ Berhasil Dikirim!</h3>
+    <p>Selamat datang calon anggota EAC 🚀</p>
+    <a href="https://chat.whatsapp.com/HdidfTDP1xoBAqsbXlSHO6" target="_blank">
+        <button>🚀 Masuk Grup Sekarang</button>
+    </a>
+</div>
+
+<!-- 🎊 Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+function handleSubmit(event){
+    event.preventDefault();
+
+    const umur = document.querySelector('input[name="Umur"]').value;
+    if(umur < 12){
+        alert("❌ Umur minimal 12 tahun!");
+        return false;
+    }
+
+    const form = document.getElementById("eacForm");
+    const data = new FormData(form);
+
+    fetch(form.action, {
+        method: "POST",
+        body: data
+    }).then(() => {
+
+        confetti({
+            particleCount: 150,
+            spread: 100,
+            origin: { y: 0.6 }
+        });
+
+        document.getElementById("successPopup").style.display = "block";
+        form.reset();
+    });
+
+    return false;
+}
+</script>
+
+</body>
+</html>
